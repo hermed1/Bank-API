@@ -1,1 +1,68 @@
-/*# sourceMappingURL=User.css.map */
+.main.bg-dark {
+  background-color: #12002b;
+  padding-bottom: 4rem;
+}
+
+.header {
+  color: #fff;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.edit-button {
+  margin-top: 1rem;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  background: #00bc77;
+  color: #fff;
+  cursor: pointer;
+}
+
+.account {
+  background: #fff;
+  border: 1px solid #000;
+  width: 80%;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+@media (min-width: 720px) {
+  .account {
+    flex-direction: row;
+    align-items: center;
+  }
+  .account-content-wrapper.cta {
+    flex: 0 0 200px;
+  }
+}
+.account-title {
+  margin: 0;
+  font-weight: normal;
+}
+
+.account-amount {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.account-amount-description {
+  margin: 0;
+}
+
+.transaction-button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  background: #00bc77;
+  color: #fff;
+  cursor: pointer;
+}/*# sourceMappingURL=User.css.map */

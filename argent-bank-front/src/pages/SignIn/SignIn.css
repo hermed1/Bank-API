@@ -1,1 +1,45 @@
-/*# sourceMappingURL=SignIn.css.map */
+.main.bg-dark {
+  background-color: #12002b;
+}
+
+.sign-in-content {
+  box-sizing: border-box;
+  background-color: #fff;
+  width: 300px;
+  margin: 3rem auto 0;
+  padding: 2rem;
+}
+.sign-in-content form .input-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.sign-in-content form .input-wrapper label {
+  font-weight: bold;
+}
+.sign-in-content form .input-wrapper input {
+  padding: 5px;
+  font-size: 1.2rem;
+}
+.sign-in-content form .input-remember {
+  display: flex;
+}
+.sign-in-content form .input-remember label {
+  margin-left: 0.25rem;
+}
+.sign-in-content form .sign-in-button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}
+
+.main {
+  flex: 1;
+}/*# sourceMappingURL=SignIn.css.map */
