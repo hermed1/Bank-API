@@ -1,5 +1,9 @@
+import { Navigate } from 'react-router-dom';
 import './User.scss';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { setUserInfo } from '../../store/userSlice';
 
 // state = objet racine du store redux
 // user = clé déclarée dans configureStore
@@ -22,14 +26,45 @@ import { useSelector } from 'react-redux';
 
 const User = () => {
   const token = useSelector((state) => state.user.token);
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const dispatch = useDispatch();
 
+  console.log(userInfo);
+  useEffect(() => {
+    if (!token) return;
+    axios
+      .post(
+        'http://localhost:3001/api/v1/user/profile',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        // Handle the response data if needed
+        console.log(response.data.body);
+        dispatch(setUserInfo(response.data.body));
+      })
+      .catch((error) => {
+        console.error('Error fetching user profile:', error);
+      });
+  }, [token]);
+
+  if (!token) {
+    return <Navigate to='/sign-in' replace />;
+  }
+  if (!userInfo) {
+    return <div>Loading profile…</div>;
+  }
   return (
     <main className='main bg-dark'>
       <div className='header'>
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {userInfo.firstName} {userInfo.lastName}!
         </h1>
         <button className='edit-button'>Edit Name</button>
       </div>

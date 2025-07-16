@@ -4,15 +4,22 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     token: null,
-    // info: null,
+    userInfo: null,
   },
   reducers: {
     setToken(state, action) {
       state.token = action.payload;
     },
-    // setUserInfo(state, action) {
-    //   state.info = action.payload;
-    // },
+    setUserInfo(state, action) {
+      state.userInfo = action.payload;
+    },
+    setUpdateUserInfo(state, action) {
+      state.userInfo = {
+        ...state.userInfo,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+      };
+    },
     // logout(state) {
     //   state.token = null;
     //   state.info = null;
@@ -23,7 +30,7 @@ const userSlice = createSlice({
 //redux génère automatiquement les actions basées sur les reducers : userSlice.actions.setToken
 // tu peux les utiliser dans ton composant avec useDispatch
 // on récupère la propriété setToken de userSlice.actions
-export const { setToken } = userSlice.actions;
+export const { setToken, setUserInfo } = userSlice.actions;
 // createSlice renvoie un objet qui contient :
 // {
 //   name: 'user',        // le nom que tu as donné
