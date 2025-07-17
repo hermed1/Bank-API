@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import './User.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -29,7 +29,6 @@ const User = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
 
-  console.log(userInfo);
   useEffect(() => {
     if (!token) return;
     axios
@@ -66,7 +65,9 @@ const User = () => {
           <br />
           {userInfo.firstName} {userInfo.lastName}!
         </h1>
-        <button className='edit-button'>Edit Name</button>
+        <Link to='/profile/edit'>
+          <button className='edit-button'>Edit Name</button>
+        </Link>
       </div>
 
       <h2 className='sr-only'>Accounts</h2>

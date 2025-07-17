@@ -1,0 +1,34 @@
+.edit__user__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+.edit__user__input {
+  margin-right: 10px;
+}
+.edit__user__input--editing {
+  border-color: orange;
+  box-shadow: 0 0 4px rgba(255, 165, 0, 0.6);
+  background-color: #fff8f0;
+}
+.edit__user__icons--editing {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.edit__FirstName__Container,
+.edit__LastName__Container {
+  display: flex;
+  width: 300px;
+  position: relative;
+}
+
+i {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}/*# sourceMappingURL=EditUser.css.map */
