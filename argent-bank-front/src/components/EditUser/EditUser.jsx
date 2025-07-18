@@ -1,14 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EditUser.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUserInfo } from '../../store/userSlice';
+import axios from 'axios';
 
 const EditUser = () => {
   const userInfos = useSelector((state) => state.user.userInfo);
+  const token = useSelector((state) => state.user.token);
+  const dispatch = useDispatch();
   const [isEditingLastName, setIsEditingLastName] = useState(false);
   const [isEditingFirstName, setIsEditingFirstName] = useState(false);
+  const [lastNameValue, setLastNameValue] = useState(userInfos.lastName);
+  const [firstNameValue, setFirstNameValue] = useState(userInfos.firstName);
 
-  console.log('iseditingfirst', isEditingFirstName);
+  useEffect(() => {
+    if (userInfos) {
+      setLastNameValue(userInfos.lastName);
+      setFirstNameValue(userInfos.firstName);
+    }
+  }, [userInfos]);
 
+  const saveInfos = (input) => {
+    axios
+      .put(
+        'http://localhost:3001/api/v1/user/profile',
+        {
+          firstName: firstNameValue,
+          lastName: lastNameValue,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch(updateUserInfo(response.data.body));
+        if (input === 'lastName') setIsEditingLastName(false);
+        else if (input === 'firstName') setIsEditingFirstName(false);
+      })
+      .catch((error) => {
+        console.error('Error updating user info:', error);
+      });
+  };
   return (
     <div className='edit__user__container'>
       <h1>Edit User Profile</h1>
@@ -17,26 +51,35 @@ const EditUser = () => {
         <input
           type='text'
           id='userOriginalName'
-          value={userInfos.lastName}
+          value={lastNameValue}
           disabled={!isEditingLastName}
           className={`edit__user__input ${
             isEditingLastName ? 'edit__user__input--editing' : ''
           }`}
+          onChange={(e) => setLastNameValue(e.target.value)}
         />
         <i
           className={`fa fa-pen-to-square fa-lg ${
             isEditingLastName ? 'hidden' : ''
           }`}
-          onClick={() => setIsEditingLastName(!isEditingLastName)}
+          onClick={() => setIsEditingLastName(true)}
         />
 
         {isEditingLastName && (
           <div className='edit__user__icons--editing'>
             <i
               className='fa-solid fa-xmark fa-lg'
-              onClick={() => setIsEditingLastName(!isEditingLastName)}
+              onClick={() => {
+                setLastNameValue(userInfos.lastName);
+                setIsEditingLastName(!isEditingLastName);
+              }}
             ></i>
-            <i className='fa-solid fa-check fa-lg'></i>
+            <i
+              className='fa-solid fa-check fa-lg'
+              onClick={() => {
+                saveInfos('lastName');
+              }}
+            ></i>
           </div>
         )}
       </div>
@@ -45,26 +88,35 @@ const EditUser = () => {
         <input
           type='text'
           id='userOriginaFirstlName'
-          value={userInfos.firstName}
+          value={firstNameValue}
           disabled={!isEditingFirstName}
           className={`edit__user__input ${
             isEditingFirstName ? 'edit__user__input--editing' : ''
           }`}
+          onChange={(e) => setFirstNameValue(e.target.value)}
         />
         <i
           className={`fa fa-pen-to-square fa-lg ${
             isEditingFirstName ? 'hidden' : ''
           }`}
-          onClick={() => setIsEditingFirstName(!isEditingFirstName)}
+          onClick={() => setIsEditingFirstName(true)}
         />
 
         {isEditingFirstName && (
           <div className='edit__user__icons--editing'>
             <i
               className='fa-solid fa-xmark fa-lg'
-              onClick={() => setIsEditingFirstName(!isEditingFirstName)}
+              onClick={() => {
+                setFirstNameValue(userInfos.firstName);
+                setIsEditingFirstName(!isEditingFirstName);
+              }}
             ></i>
-            <i className='fa-solid fa-check fa-lg'></i>
+            <i
+              className='fa-solid fa-check fa-lg'
+              onClick={() => {
+                saveInfos('firstName');
+              }}
+            ></i>
           </div>
         )}
       </div>
