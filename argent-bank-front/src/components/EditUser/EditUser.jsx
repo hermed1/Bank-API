@@ -13,7 +13,7 @@ const EditUser = () => {
     <div className='edit__user__container'>
       <h1>Edit User Profile</h1>
       <div className='edit__FirstName__Container'>
-        <label htmlFor='userOriginalName'>Your name : </label>
+        <label htmlFor='userOriginalName'>Your last name : </label>
         <input
           type='text'
           id='userOriginalName'
@@ -24,17 +24,19 @@ const EditUser = () => {
           }`}
         />
         <i
-          className={`fa fa-pen-to-square ${isEditingLastName ? 'hidden' : ''}`}
+          className={`fa fa-pen-to-square fa-lg ${
+            isEditingLastName ? 'hidden' : ''
+          }`}
           onClick={() => setIsEditingLastName(!isEditingLastName)}
         />
 
         {isEditingLastName && (
-          <div className='editStateIcons'>
+          <div className='edit__user__icons--editing'>
             <i
-              className='fa-solid fa-xmark'
+              className='fa-solid fa-xmark fa-lg'
               onClick={() => setIsEditingLastName(!isEditingLastName)}
             ></i>
-            <i className='fa-solid fa-check'></i>
+            <i className='fa-solid fa-check fa-lg'></i>
           </div>
         )}
       </div>
@@ -50,7 +52,7 @@ const EditUser = () => {
           }`}
         />
         <i
-          className={`fa fa-pen-to-square ${
+          className={`fa fa-pen-to-square fa-lg ${
             isEditingFirstName ? 'hidden' : ''
           }`}
           onClick={() => setIsEditingFirstName(!isEditingFirstName)}
@@ -59,10 +61,10 @@ const EditUser = () => {
         {isEditingFirstName && (
           <div className='edit__user__icons--editing'>
             <i
-              className='fa-solid fa-xmark'
+              className='fa-solid fa-xmark fa-lg'
               onClick={() => setIsEditingFirstName(!isEditingFirstName)}
             ></i>
-            <i className='fa-solid fa-check'></i>
+            <i className='fa-solid fa-check fa-lg'></i>
           </div>
         )}
       </div>

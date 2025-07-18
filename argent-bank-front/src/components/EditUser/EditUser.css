@@ -6,6 +6,7 @@
 }
 .edit__user__input {
   margin-right: 10px;
+  min-width: 150px;
 }
 .edit__user__input--editing {
   border-color: orange;
@@ -15,13 +16,16 @@
 .edit__user__icons--editing {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -40px;
+  display: flex;
+  gap: 10px;
+  top: 14px;
 }
 
 .edit__FirstName__Container,
 .edit__LastName__Container {
   display: flex;
-  width: 300px;
+  justify-content: center;
   position: relative;
 }
 
@@ -29,6 +33,25 @@ i {
   cursor: pointer;
 }
 
+label {
+  width: 120px;
+  text-align: left;
+}
+
+.fa-check {
+  color: green;
+}
+
+.fa-xmark {
+  color: rgb(173, 36, 36);
+}
+
 .hidden {
   display: none;
+}
+
+.fa-pen-to-square {
+  position: absolute;
+  right: -20px;
+  top: 10px;
 }/*# sourceMappingURL=EditUser.css.map */
