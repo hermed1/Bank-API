@@ -1,7 +1,7 @@
 import './Home.css';
-import iconChat from '../../assets/icon-chat.png';
-import iconMoney from '../../assets/icon-money.png';
-import iconSecurity from '../../assets/icon-security.png';
+import iconChat from '../../../public/assets/icon-chat.png';
+import iconMoney from '../../../public/assets/icon-money.png';
+import iconSecurity from '../../../public/assets/icon-money.png';
 
 const Home = () => {
   return (

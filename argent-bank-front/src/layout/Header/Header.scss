@@ -8,6 +8,7 @@
 .main-nav a {
   font-weight: bold;
   color: #2c3e50;
+  margin-right: 65px;
 }
 
 .main-nav a.router-link-exact-active {
@@ -34,4 +35,21 @@
 }
 .fa-user-circle {
   margin-right: 5px;
+  color: #e0e7ec;
+  font-size: 25px;
+  margin-right: 10px;
+  position: absolute;
+  top: 0;
+  left: -40px;
+}
+.fa-sign-out {
+  margin-right: 10px;
+  font-size: 22px;
+  color: #5a6876;
+  position: absolute;
+  top: 0;
+  right: 128px;
+}
+.main-nav-items {
+  position: relative;
 }

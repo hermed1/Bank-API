@@ -1,8 +1,11 @@
 import './Header.css';
-import logo from '../../assets/argentBankLogo.png';
+import logo from '../../../public/assets/argentBankLogo.png';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const Header = ({ user }) => {
+const Header = () => {
+  const userInfos = useSelector((state) => state.user.userInfo);
+  console.log('Header userInfos:', userInfos);
   return (
     <nav className='main-nav'>
       <Link className='main-nav-logo' to='/'>
@@ -13,14 +16,14 @@ const Header = ({ user }) => {
         />
         <h1 className='sr-only'>Argent Bank</h1>
       </Link>
-      <div>
-        {user ? (
+      <div className='main-nav-items'>
+        {userInfos ? (
           <>
             <Link className='main-nav-item' to='/profile'>
-              <i className='fa fa-user-circle'></i>
-              {user.firstName}
+              <i class='fa fa-user-circle'></i>
+              {userInfos.firstName}
             </Link>
-            <Link className='main-nav-item' to='/sign-in'>
+            <Link className='main-nav-item' to='/'>
               <i className='fa fa-sign-out'></i>
               Sign Out
             </Link>
