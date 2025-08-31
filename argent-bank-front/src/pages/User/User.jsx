@@ -52,7 +52,7 @@ const User = () => {
   }, [token]);
 
   if (!token) {
-    return <Navigate to='/sign-in' replace />;
+    return <Navigate to='/login' replace />;
   }
   if (!userInfo) {
     return <div>Loading profile…</div>;

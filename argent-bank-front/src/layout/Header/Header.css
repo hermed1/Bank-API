@@ -20,6 +20,10 @@
   margin-right: 0.5rem;
 }
 
+.main-nav-item-signed-in {
+  margin-right: 30px !important;
+}
+
 .main-nav-item:hover {
   text-decoration: underline;
 }
@@ -46,11 +50,11 @@
 
 .fa-sign-out {
   margin-right: 10px;
-  font-size: 22px;
+  font-size: 16px;
   color: #5a6876;
   position: absolute;
-  top: 0;
-  right: 128px;
+  top: 3px;
+  right: 70px;
 }
 
 .main-nav-items {
