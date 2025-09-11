@@ -6,6 +6,7 @@ import { logout } from '../../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  //cherche dans le state global la partie user et recupere userInfo
   const userInfos = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -10,7 +10,6 @@
 }
 
 .edit-button {
-  margin-top: 1rem;
   padding: 10px;
   font-weight: bold;
   border: none;
@@ -29,6 +28,7 @@
   flex-direction: column;
   text-align: left;
   box-sizing: border-box;
+  justify-content: space-between;
 }
 
 @media (min-width: 720px) {

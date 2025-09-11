@@ -1,0 +1,245 @@
+openapi: 3.0.3
+info:
+  title: Argent Bank - Transactions API (Phase 2)
+  version: 1.0.0
+  description: >
+    Endpoints to:
+      - list all transactions for the current month, grouped by account
+      - get details for a single transaction
+      - add/update/remove user-editable information on a transaction (category, notes)
+servers:
+  - url: http://localhost:3001/api/v1
+
+tags:
+  - name: Transactions
+    description: Manage transactions for the authenticated user
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      required: [message]
+      properties:
+        code:
+          type: string
+          example: TRANSACTION_NOT_FOUND
+        message:
+          type: string
+          example: Transaction not found
+
+    Transaction:
+      type: object
+      description: Banking transaction enriched with user-editable metadata per mockups.
+      required: [id, accountId, postedAt, description, amount, balance]
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: '2a7d1bfa-8d6f-4e56-9c5b-3f6b4d3d9a10'
+        accountId:
+          type: string
+          example: 'chk_8349'
+        postedAt:
+          type: string
+          format: date-time
+          example: '2020-06-20T00:00:00Z'
+        description:
+          type: string
+          example: 'Golden Sun Bakery'
+        amount:
+          type: number
+          format: float
+          example: -5.00
+        balance:
+          type: number
+          format: float
+          example: 2082.79
+        currency:
+          type: string
+          example: 'USD'
+        transactionType:
+          type: string
+          description: Label shown in the “Transaction Type” line
+          example: 'Electronic'
+        category:
+          type: string
+          nullable: true
+          example: 'Food'
+        notes:
+          type: string
+          nullable: true
+          example: 'Client breakfast'
+
+    AccountGroup:
+      type: object
+      description: Transactions for one account (current month).
+      required: [accountId, transactions]
+      properties:
+        accountId:
+          type: string
+          example: 'chk_8349'
+        accountName:
+          type: string
+          example: 'Checking'
+        currency:
+          type: string
+          example: 'USD'
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+
+    TransactionEdit:
+      type: object
+      description: >
+        Update of user-editable information only.
+        Omit a property to leave it unchanged. Send null to clear its value.
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+      example:
+        category: 'Food & Drink'
+        notes: 'Lunch with client'
+
+paths:
+  /transactions:
+    parameters:
+      - in: query
+        name: 'currentMonth'
+        required: true
+        schema:
+          type: boolean
+        description: current month
+    get:
+      tags: [Transactions]
+      summary: Get all transactions for the current month, grouped by account
+      description: >
+        Returns the authenticated user's transactions for the current month,
+        grouped by account. The server computes month boundaries.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [month, accounts]
+                properties:
+                  month:
+                    type: string
+                    description: Month covered (YYYY-MM)
+                    example: '2020-06'
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AccountGroup'
+              examples:
+                sample:
+                  value:
+                    month: '2020-06'
+                    accounts:
+                      - accountId: 'chk_8349'
+                        accountName: 'Checking'
+                        currency: 'USD'
+                        transactions:
+                          - id: '2a7d1bfa-8d6f-4e56-9c5b-3f6b4d3d9a10'
+                            accountId: 'chk_8349'
+                            postedAt: '2020-06-20T00:00:00Z'
+                            description: 'Golden Sun Bakery'
+                            amount: -5.00
+                            balance: 2082.79
+                            currency: 'USD'
+                            transactionType: 'Electronic'
+                            category: 'Food'
+                            notes: null
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /transactions/{transactionId}:
+    parameters:
+      - in: path
+        name: transactionId
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Transaction identifier belonging to the authenticated user
+    get:
+      tags: [Transactions]
+      summary: Get transaction details
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden (transaction does not belong to the user)
+        '404':
+          description: Transaction not found
+        '500':
+          description: Server error
+
+    put:
+      tags: [Transactions]
+      summary: Update editable information (category, notes). Null clears the field.
+      description: >
+        Updates user-editable information for a transaction.
+        Omit a property to leave it unchanged. Send null to clear its value.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionEdit'
+            examples:
+              updateExample:
+                value:
+                  category: 'Food & Drink'
+                  notes: 'Bistro with client'
+      responses:
+        '200':
+          description: Updated transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Invalid payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Transaction not found
+        '500':
+          description: Server error

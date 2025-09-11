@@ -2,7 +2,9 @@
   background-color: #12002b;
   padding-bottom: 4rem;
 }
-
+.bg-light {
+  background-color: #e0e7ec;
+}
 .header {
   color: #fff;
   margin-bottom: 2rem;
@@ -10,7 +12,6 @@
 }
 
 .edit-button {
-  margin-top: 1rem;
   padding: 10px;
   font-weight: bold;
   border: none;
@@ -29,6 +30,7 @@
   flex-direction: column;
   text-align: left;
   box-sizing: border-box;
+  justify-content: space-between;
 }
 
 @media (min-width: 720px) {
@@ -66,4 +68,7 @@
   background: #00bc77;
   color: #fff;
   cursor: pointer;
+}
+.transaction-button--purple {
+  background-color: rgb(100, 88, 245);
 }

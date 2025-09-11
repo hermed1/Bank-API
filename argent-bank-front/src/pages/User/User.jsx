@@ -1,13 +1,14 @@
 import { Link, Navigate } from 'react-router-dom';
 import './User.scss';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { setUserInfo } from '../../store/userSlice';
+import EditUser from '../../components/EditUser/EditUser';
 
 // state = objet racine du store redux
 // user = clé déclarée dans configureStore
-// Quand Redux crée le store, il fait
+// Quand Redux crée le store
 // Il appelle chaque reducer avec state = undefined
 
 // Un reducer en JS fait
@@ -28,9 +29,11 @@ const User = () => {
   const token = useSelector((state) => state.user.token);
   const userInfo = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
+  const [editUser, setEditUser] = useState(false);
 
   useEffect(() => {
     if (!token) return;
+
     axios
       .post(
         'http://localhost:3001/api/v1/user/profile',
@@ -49,27 +52,32 @@ const User = () => {
       .catch((error) => {
         console.error('Error fetching user profile:', error);
       });
-  }, [token]);
+  }, [token, dispatch]);
 
-  if (!token) {
-    return <Navigate to='/login' replace />;
-  }
+  if (!token) return <Navigate to='/login' replace />;
+
   if (!userInfo) {
     return <div>Loading profile…</div>;
   }
   return (
-    <main className='main bg-dark'>
-      <div className='header'>
-        <h1>
-          Welcome back
-          <br />
-          {userInfo.firstName} {userInfo.lastName}!
-        </h1>
-        <Link to='/profile/edit'>
-          <button className='edit-button'>Edit Name</button>
-        </Link>
-      </div>
-
+    <main className={`main ${editUser ? 'bg-light' : 'bg-dark'}`}>
+      {editUser ? (
+        <EditUser setEditUser={setEditUser} />
+      ) : (
+        <div className='header'>
+          <h1>
+            Welcome back
+            <br />
+            {userInfo.firstName} {userInfo.lastName}!
+          </h1>
+          <button
+            className='edit-button'
+            onClick={() => setEditUser(!editUser)}
+          >
+            Edit Name
+          </button>
+        </div>
+      )}
       <h2 className='sr-only'>Accounts</h2>
 
       <section className='account'>
@@ -79,7 +87,13 @@ const User = () => {
           <p className='account-amount-description'>Available Balance</p>
         </div>
         <div className='account-content-wrapper cta'>
-          <button className='transaction-button'>View transactions</button>
+          <button
+            className={`transaction-button ${
+              editUser ? 'transaction-button--purple' : ''
+            }`}
+          >
+            View transactions
+          </button>
         </div>
       </section>
 
@@ -90,7 +104,13 @@ const User = () => {
           <p className='account-amount-description'>Available Balance</p>
         </div>
         <div className='account-content-wrapper cta'>
-          <button className='transaction-button'>View transactions</button>
+          <button
+            className={`transaction-button ${
+              editUser ? 'transaction-button--purple' : ''
+            }`}
+          >
+            View transactions
+          </button>{' '}
         </div>
       </section>
 
@@ -101,7 +121,13 @@ const User = () => {
           <p className='account-amount-description'>Current Balance</p>
         </div>
         <div className='account-content-wrapper cta'>
-          <button className='transaction-button'>View transactions</button>
+          <button
+            className={`transaction-button ${
+              editUser ? 'transaction-button--purple' : ''
+            }`}
+          >
+            View transactions
+          </button>{' '}
         </div>
       </section>
     </main>

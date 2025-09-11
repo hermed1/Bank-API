@@ -3,8 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { updateUserInfo } from '../../store/userSlice';
 import './EditUser.css';
+import { useNavigate } from 'react-router-dom';
 
-export default function EditUser() {
+export default function EditUser({ setEditUser }) {
   const userInfos = useSelector((state) => state.user.userInfo);
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function EditUser() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       dispatch(updateUserInfo(data.body));
+      setEditUser(false);
     } catch (err) {
       console.error('Erreur mise à jour profil :', err);
     }
@@ -35,6 +37,7 @@ export default function EditUser() {
   const handleCancel = () => {
     setLastName(userInfos.lastName);
     setFirstName(userInfos.firstName);
+    setEditUser(false);
   };
 
   if (!userInfos) return <div>Loading…</div>;
@@ -60,7 +63,7 @@ export default function EditUser() {
         <button className='btn save' onClick={handleSave}>
           Save
         </button>
-        <button className='btn cancel' onClick={handleCancel}>
+        <button className='btn cancel' onClick={() => handleCancel()}>
           Cancel
         </button>
       </div>

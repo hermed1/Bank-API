@@ -8,6 +8,7 @@ const userSlice = createSlice({
   },
   reducers: {
     setToken(state, action) {
+      //action.payload est la valeur passée au dispatch
       state.token = action.payload;
     },
     setUserInfo(state, action) {
