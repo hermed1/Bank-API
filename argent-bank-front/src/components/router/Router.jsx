@@ -4,7 +4,7 @@ import Home from '../../pages/Home/Home';
 import Signin from '../../pages/SignIn/SignIn';
 import User from '../../pages/User/User';
 import EditUser from '../EditUser/EditUser';
-// import NotFound from '../../pages/NotFound/NotFound';
+import NotFound from '../../pages/NotFound/NotFound';
 
 const Router = createBrowserRouter([
   {
@@ -14,7 +14,7 @@ const Router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/login', element: <Signin /> },
       { path: '/profile', element: <User /> },
-      //   { path: '*', element: <NotFound /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);

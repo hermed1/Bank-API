@@ -1,0 +1,43 @@
+.notfound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 160px);
+  padding: 2rem 1rem;
+  text-align: center;
+
+  &__content {
+    max-width: 520px;
+    color: #fff;
+  }
+
+  &__code {
+    font-size: 7rem;
+    line-height: 1;
+    margin: 0 0 1rem;
+    color: #fff;
+  }
+
+  &__title {
+    font-size: 2rem;
+    margin: 0 0 1rem;
+    color: #fff;
+  }
+
+  &__hint {
+    font-size: 1.2rem;
+    margin: 0 0 2rem;
+    color: #fff;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+.home-button {
+  color: aqua;
+  font-weight: bold;
+  font-size: 24px;
+}
