@@ -8,11 +8,19 @@ import './SignIn.css';
 const SignIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrorMsg('');
+
+    if (!username || !password) {
+      setErrorMsg('Please enter your email and password.');
+      return;
+    }
+
     axios
       .post('http://localhost:3001/api/v1/user/login', {
         email: username,
@@ -22,7 +30,14 @@ const SignIn = () => {
         dispatch(setToken(response.data.body.token));
         navigate('/profile');
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        if (err.response?.status === 400 || err.response?.status === 401) {
+          setErrorMsg('Invalid email or password.');
+        } else {
+          setErrorMsg('Sign-in failed. Please try again.');
+        }
+        console.error(err);
+      });
   };
 
   return (
@@ -30,6 +45,12 @@ const SignIn = () => {
       <section className='sign-in-content'>
         <i className='fa fa-user-circle sign-in-icon'></i>
         <h1>Sign In</h1>
+
+        {errorMsg && (
+          <div className='alert-error' role='alert'>
+            {errorMsg}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className='input-wrapper'>

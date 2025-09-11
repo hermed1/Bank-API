@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { updateUserInfo } from '../../store/userSlice';
 import './EditUser.css';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditUser({ setEditUser }) {
   const userInfos = useSelector((state) => state.user.userInfo);

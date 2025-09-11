@@ -20,7 +20,6 @@ import EditUser from '../../components/EditUser/EditUser';
 // }
 // Donc, par défaut, il retourne l’objet initialState (ici { token: null })
 
-// C’est ça la base du fonctionnement.
 // Le reducer garde en mémoire ce initialState
 // et dès qu’il est appelé la première fois, il te le renvoie.
 // Voilà pourquoi state.user.token existe tout de suite, même sans action.
@@ -33,7 +32,6 @@ const User = () => {
 
   useEffect(() => {
     if (!token) return;
-
     axios
       .post(
         'http://localhost:3001/api/v1/user/profile',
